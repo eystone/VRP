@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4b293538-edf6-4588-a445-a5dc850ac75a}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>VRP-Project-main\main.py</StartupFile>
+    <SearchPath>VRP-Project-main\;VRP-Project-main\statistic\;VRP-Project-main\pdf\;VRP-Project-main\generation\;VRP-Project-main\database\</SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>MSBuild|VRP_env|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="VRP-Project-main\requirements.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="VRP-Project-main\database\DBConnection.py" />
+    <Compile Include="VRP-Project-main\database\DBManagement.py" />
+    <Compile Include="VRP-Project-main\generation\DataGeneration.py" />
+    <Compile Include="VRP-Project-main\generation\GenerationTest.py" />
+    <Compile Include="VRP-Project-main\generation\Segment.py" />
+    <Compile Include="VRP-Project-main\generation\Summit.py" />
+    <Compile Include="VRP-Project-main\generation\Vehicle.py" />
+    <Compile Include="VRP-Project-main\main.py" />
+    <Compile Include="VRP-Project-main\pathfinding\PathFinding.py" />
+    <Compile Include="VRP-Project-main\pdf\RoadMap.py" />
+    <Compile Include="VRP-Project-main\pdf\StatMap.py" />
+    <Compile Include="VRP-Project-main\statistic\Stats.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="VRP-Project-main" />
+    <Folder Include="VRP-Project-main\database" />
+    <Folder Include="VRP-Project-main\generation" />
+    <Folder Include="VRP-Project-main\pathfinding" />
+    <Folder Include="VRP-Project-main\pdf" />
+    <Folder Include="VRP-Project-main\statistic" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="VRP_env\">
+      <Id>VRP_env</Id>
+      <Description>VRP_env (Python 3.9 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <Version>3.9</Version>
+      <Architecture>X64</Architecture>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
