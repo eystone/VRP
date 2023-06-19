@@ -25,7 +25,6 @@
     <Compile Include="VRP-Project-main\database\DBConnection.py" />
     <Compile Include="VRP-Project-main\database\DBManagement.py" />
     <Compile Include="VRP-Project-main\generation\DataGeneration.py" />
-    <Compile Include="VRP-Project-main\generation\GenerationTest.py" />
     <Compile Include="VRP-Project-main\generation\Segment.py" />
     <Compile Include="VRP-Project-main\generation\Summit.py" />
     <Compile Include="VRP-Project-main\generation\Vehicle.py" />

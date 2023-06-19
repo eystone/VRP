@@ -19,7 +19,6 @@ def display_graph(plt: pyplot, save=False):
         plt.show()
         return None
 
-
 def estimate_coef(x, y):
     # number of observations/points
     n = np.size(x)
@@ -38,7 +37,6 @@ def estimate_coef(x, y):
 
     return b_0, b_1
 
-
 def plot_regression_line(x, y, b, x_name, y_name, title, save):
     # plotting the actual points as scatter plot
     plt.scatter(x, y, color="m",
@@ -56,14 +54,12 @@ def plot_regression_line(x, y, b, x_name, y_name, title, save):
     plt.title(title)
     return display_graph(plt, save)
 
-
 def linear_regression(x, y, x_name, y_name, title, save=False) -> [int]:
     x = np.array(x)
     y = np.array(y)
     b = estimate_coef(x, y)
     r = plot_regression_line(x, y, b, x_name, y_name, title, save)
     return b, r
-
 
 def classic_lines_graph(x, y, x_name, y_name, line_name, title, save=False):
     for i in range(len(x)):
@@ -75,7 +71,6 @@ def classic_lines_graph(x, y, x_name, y_name, line_name, title, save=False):
     # show a legend on the plot
     plt.legend()
     return display_graph(plt, save)
-
 
 def stat_dj_fix_summits(save=False):
     stats = DBManagement.get_stat_from_mongo_sort_by_summits()
@@ -95,7 +90,6 @@ def stat_dj_fix_summits(save=False):
     plt.scatter(x, y, color="m", marker="o", s=30)
     return display_graph(plt, save)
 
-
 def stat_dj_fix_neighbors(save=False):
     stats = DBManagement.get_stat_from_mongo_sort_by_neighbors()
     time_dj = []
@@ -114,7 +108,6 @@ def stat_dj_fix_neighbors(save=False):
     plt.title('Graph representing number of summits (with 3 neighbors) \nover execution Time of Djikstra Algorithm')
     plt.scatter(x, y, color="m", marker="o", s=30)
     return display_graph(plt, save)
-
 
 def stats_pathfinding(sm, ng, ptg, title, save=False):
     d = {'neighbors': ng, 'pathfinding': ptg, 'summit': sm}

@@ -21,9 +21,9 @@ if __name__ == '__main__':
 
         print("What do you want to do?")
         print('{:.<5s}{:<10}'.format("0", "Exit"))
-        print('{:.<5s}{:<10}'.format("1", "Generate and store in DB"))
-        print('{:.<5s}{:<10}'.format("2", "Retrieve data from the DB"))
-        print('{:.<5s}{:<10}'.format("3", "Calculate + RoadMap"))
+        print('{:.<5s}{:<10}'.format("1", "Generate Graphs and store in DB"))
+        print('{:.<5s}{:<10}'.format("2", "Retrieve Graph from the DB"))
+        print('{:.<5s}{:<10}'.format("3", "Calculate Path + RoadMap"))
         print('{:.<5s}{:<10}'.format("4", "Generate additional stat data"))
         print('{:.<5s}{:<10}'.format("5", f"Compute the {dbm.get_number_of_stored_stat()} stat data"))
 
@@ -32,19 +32,18 @@ if __name__ == '__main__':
         clearConsole()
 
         if inp == "0":  # quitter
-            print("Thank you for using our software !")
-            print("It will close in three seconds...")
-            sleep(3)
+            print("It will close in 5 seconds...")
+            sleep(5)
             quit(0)
 
         elif inp == "1":  # Generate + store
             data = DataGeneration(number_of_summit=500, number_of_vehicle=10, max_neighbor=5, number_of_kind_of_item=4)
             clearConsole()
-            print("The data is being stored, please be patient !")
+            print("Loading in MongoDB")
             dbm.store_data_generation(data)
 
         elif inp == "2":  # Load from DB
-            print("Data recovery, please wait")
+            print("Getting data from MongoDB")
             data = dbm.get_data_generation()
             # data.display()
             clearConsole()
@@ -53,12 +52,11 @@ if __name__ == '__main__':
             if data is not None:
                 print("Path calculation, please wait")
                 start = time.time()
-                data.pf.do(data, "dj", 10)
+                data.pathfinder.do(data, "dj", 10)
                 end = time.time()
                 print(end - start)
                 clearConsole()
-                #print('Generation of the pdf, please wait')
-                # todo call the pathfinding here
+                print('Generation of the pdf, please wait')
                 roadmap_instance = RoadMap('test')
                 roadmap_instance.generate(data)
             else:
@@ -85,17 +83,17 @@ if __name__ == '__main__':
                         bdd_entry['generation'] = end - start
                         #Djikstra
                         start = time.time()
-                        data.pf.do(data, "dj", 10)
+                        data.pathfinder.do(data, "Djistra", 10)
                         end = time.time()
                         bdd_entry['pathfinding_dj'] = end - start
-                        print(f"dj : {bdd_entry['pathfinding_dj']}")
+                        print(f"dijstra : {bdd_entry['pathfinding_dj']}")
                         bdd_entry['average_weight_dj'] = average_weight(data)
                         #AStar
                         start = time.time()
-                        data.pf.do(data, "astar", 10)
+                        data.pathfinder.do(data, "Astar", 10)
                         end = time.time()
                         bdd_entry['pathfinding_astar'] = end - start
-                        print(f"fw : {bdd_entry['pathfinding_astar']}")
+                        print(f"Astar : {bdd_entry['pathfinding_astar']}")
                         bdd_entry['average_weight_astar'] = average_weight(data)
                         #roadmap
                         #start = time.time()
@@ -107,16 +105,16 @@ if __name__ == '__main__':
                         del data.data_segment
                         del data.data_vehicles
                         del data.data_matrix
-                        del data.pf
+                        del data.pathfinder
                         #del roadmap_instance
                         del data
                         dbm.store_stat_to_mongo(json.loads(json.dumps(bdd_entry)))
-                        print("stored to MongoDB")
+                        print("Stored to MongoDB")
                         neighbors += 1
                     vehicles += 1
                 summits += step
             progbar.finish()
-            print("Statistic Calculation is finished")
+            print("Statistic Calculation is finished and put in the MongoDB")
             sleep(10)
         elif inp == "5":
             stat_map = StatMap('statstest')
