@@ -76,7 +76,7 @@ class DataGeneration:
         G2 = nx.DiGraph(M)
         plt.figure()
         # Set node size by type
-        node_sizes = [3000 if x.kind == 1 else 1600 for x in self.data_summit]
+        node_sizes = [300 if x.kind == 1 else 160 for x in self.data_summit]
         # Set color map
         cmap = ['darkorange' if x.kind == 1 else 'dodgerblue' for x in self.data_summit]
         # Draw the graph and specify our characteristics

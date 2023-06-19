@@ -10,7 +10,6 @@ from pdf.RoadMap import RoadMap
 from pdf.StatMap import StatMap
 from statistic import Stats
 import pandas as pd
-import progressbar
 
 def clearConsole(): os.system('cls' if os.name in ('nt', 'dos') else 'clear')
 
@@ -20,12 +19,12 @@ if __name__ == '__main__':
     while True:
 
         print("What do you want to do?")
-        print('{:.<5s}{:<10}'.format("0", "Exit"))
-        print('{:.<5s}{:<10}'.format("1", "Generate Graphs and store in DB"))
-        print('{:.<5s}{:<10}'.format("2", "Retrieve Graph from the DB"))
-        print('{:.<5s}{:<10}'.format("3", "Calculate Path + RoadMap"))
-        print('{:.<5s}{:<10}'.format("4", "Generate additional stat data"))
-        print('{:.<5s}{:<10}'.format("5", f"Compute the {dbm.get_number_of_stored_stat()} stat data"))
+        print('{:.<3s}{:<5}'.format("0", "Exit"))
+        print('{:.<3s}{:<5}'.format("1", "Random Graph to DB"))
+        print('{:.<3s}{:<5}'.format("2", "Get Graph from the DB"))
+        print('{:.<3s}{:<5}'.format("3", "Calculate Path + print RoadMap"))
+        print('{:.<3s}{:<5}'.format("4", "Generate stat data for studies"))
+        print('{:.<3s}{:<5}'.format("5", f"Compute the {dbm.get_number_of_stored_stat()} stat data"))
 
         while (inp := (input("Enter your choice :"))) not in ["0", "1", "2", "3", "4", "5"]:
             print("Please enter a correct number")
@@ -113,7 +112,6 @@ if __name__ == '__main__':
                         neighbors += 1
                     vehicles += 1
                 summits += step
-            progbar.finish()
             print("Statistic Calculation is finished and put in the MongoDB")
             sleep(10)
         elif inp == "5":

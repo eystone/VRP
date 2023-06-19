@@ -2,7 +2,6 @@ import copy
 
 import networkx as nx
 import numpy as np
-import progressbar
 
 def average_weight(data):
     wg = 0
@@ -14,7 +13,6 @@ def average_weight(data):
 
 
 class PathFinding:
-    bar = progressbar.ProgressBar(max_value=100)
     solutions = []
 
     def __init__(self, number_of_summit):

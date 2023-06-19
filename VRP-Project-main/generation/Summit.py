@@ -25,9 +25,9 @@ class Summit:
 
     def __str__(self):
         if self.kind == 0:
-            return f"Sommet {self.id} de type Adresse, items : {self.item_to_deliver.get('qtt')} d'objet n°{self.item_to_deliver.get('kind')}"
+            return f"Sommet {self.id} Adresse, items : {self.item_to_deliver.get('qtt')} d'objet n°{self.item_to_deliver.get('kind')}"
         else:
-            return f"Sommet {self.id} de type DEPOT ⌂⌂⌂⌂⌂"
+            return f"Sommet {self.id} DEPOT"
 
     def str_as_stopover(self):
         return f"Sommet {self.id} intermédiaire"

@@ -23,19 +23,19 @@ def matrix_to_img(matrix, summit) -> str:
         'node_color': 'yellow',
         'node_size': 100,
         'edge_color': 'tab:grey',
-        'with_labels': True
+        'with_labels': False,
     }
     # Set node size by type
-    node_sizes = [3000 if x.kind == 1 else 1500 for x in summit]
+    node_sizes = [300 if x.kind == 1 else 150 for x in summit]
     # Set color map
     cmap = ['darkorange' if x.kind == 1 else 'dodgerblue' for x in summit]
     # Draw the graph and specify our characteristics
-    lbl = ['Dépot' if x.kind == 1 else f'Adresse \n{summit.index(x)}' for x in summit]
+    lbl = ['Dépot' if x.kind == 1 else f'{summit.index(x)}' for x in summit]
     nx.draw(G2, with_labels=True, node_color=cmap,
-            node_size=node_sizes, font_size=8, font_weight="bold", width=0.75,
+            node_size=node_sizes, font_size=8, font_weight="bold", width=1,
             edgecolors='gray', labels={i: lbl[i] for i in range(len(lbl))})
     fn = str(uuid.uuid4())[:6]
-    plt.savefig(f'{fn}.jpg', format='jpg')
+    plt.savefig(f'graphs/{fn}.jpg', format='jpg')
     plt.close()
     return fn
 
@@ -53,8 +53,7 @@ class RoadMap:
         c.drawString(100, 800, "Feuille de route")
         c.drawString(100, 780, "graph de général")
         fn = matrix_to_img(data.data_matrix, data.data_summit)
-        c.drawImage(f'{fn}.jpg', 0, 760 - 4 * inch, height=4 * inch, preserveAspectRatio=True, mask='auto')
-        remove_img(fn)
+        c.drawImage(f'graphs/{fn}.jpg', 0, 760 - 4 * inch, height=4 * inch, preserveAspectRatio=True, mask='auto')
         offset = 740 - 4 * inch
         for smt in data.data_summit:
             c.drawString(100, offset, str(smt))
@@ -66,7 +65,7 @@ class RoadMap:
 
         for vh in data.data_vehicles:
             c.showPage()
-            c.drawString(100, 800, f"Feuille de route pour la voiture {vh.id}")
+            c.drawString(100, 800, f"Itinéraire Véhicule {vh.id}")
             offset = 780
             idx = 0
             for i, stop in enumerate(vh.full_itinerary):
@@ -77,8 +76,8 @@ class RoadMap:
                     if smt.id == vh.itinerary[idx] or smt.id == data.warehouse[vh.kind]:
                         c.drawString(100, offset, f"Stop n° {i} : {smt}")
                         idx += 1
-                    else:
-                        c.drawString(100, offset, f"Stop n° {i} : {smt.str_as_stopover()}")
+                    #else:
+                    #    c.drawString(100, offset, f"Stop n° {i} : {smt.str_as_stopover()}")
                 if offset - 20 < 20:
                     c.showPage()
                     offset = 800
