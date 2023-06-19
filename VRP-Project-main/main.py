@@ -85,28 +85,21 @@ if __name__ == '__main__':
                         data.pathfinder.do(data, "Djistra", 10)
                         end = time.time()
                         bdd_entry['pathfinding_dj'] = end - start
-                        print(f"dijstra : {bdd_entry['pathfinding_dj']}")
                         bdd_entry['average_weight_dj'] = average_weight(data)
                         #AStar
                         start = time.time()
                         data.pathfinder.do(data, "Astar", 10)
                         end = time.time()
                         bdd_entry['pathfinding_astar'] = end - start
-                        print(f"Astar : {bdd_entry['pathfinding_astar']}")
                         bdd_entry['average_weight_astar'] = average_weight(data)
-                        #roadmap
-                        #start = time.time()
-                        #roadmap_instance = RoadMap('test')
-                        #roadmap_instance.generate(data)
-                        #end = time.time()
-                        #bdd_entry['roadmap'] = end - start
-                        #print(f"rm : {bdd_entry['roadmap']}")
+               
                         del data.data_segment
                         del data.data_vehicles
                         del data.data_matrix
                         del data.pathfinder
                         #del roadmap_instance
                         del data
+
                         dbm.store_stat_to_mongo(json.loads(json.dumps(bdd_entry)))
                         print("Stored to MongoDB")
                         neighbors += 1

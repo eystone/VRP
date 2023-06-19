@@ -11,9 +11,7 @@ from generation.Summit import Summit
 from generation.Vehicle import Vehicle
 from pathfinding.PathFinding import PathFinding
 
-
 def clearConsole(): os.system('cls' if os.name in ('nt', 'dos') else 'clear')
-
 
 class DataGeneration:
     warehouse = 0
