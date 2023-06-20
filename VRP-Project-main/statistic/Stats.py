@@ -121,12 +121,12 @@ def stats_pathfinding(sm, ng, ptg, title, save=False):
     # putting the value of the axes
     max_value_x = max(sm) + 200
     plt.xticks(np.arange(0, max_value_x, 200))
-    max_value_y = max(ptg) + 30
-    plt.yticks(np.arange(0, max_value_y, 25))
+    max_value_y = max(ptg) + 5
+    plt.yticks(np.arange(0, max_value_y, 10))
 
     # putting labels
-    plt.xlabel('Summits')
-    plt.ylabel('Seconds ')
+    plt.xlabel('Number of summit')
+    plt.ylabel('Execution time (in s) ')
     plt.legend()
 
     # putting title
