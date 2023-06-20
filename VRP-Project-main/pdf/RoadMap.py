@@ -50,8 +50,8 @@ class RoadMap:
 
         c = canvas.Canvas(f"{self.file_name}.pdf")
 
-        c.drawString(100, 800, "Feuille de route")
-        c.drawString(100, 780, "graph de général")
+        c.drawString(100, 800, "Roadmap")
+        c.drawString(100, 780, "Summits, Arrays, and Depot generation")
         fn = matrix_to_img(data.data_matrix, data.data_summit)
         c.drawImage(f'graphs/{fn}.jpg', 0, 760 - 4 * inch, height=4 * inch, preserveAspectRatio=True, mask='auto')
         offset = 740 - 4 * inch
@@ -65,7 +65,7 @@ class RoadMap:
 
         for vh in data.data_vehicles:
             c.showPage()
-            c.drawString(100, 800, f"Itinéraire Véhicule {vh.id}")
+            c.drawString(100, 800, f"Roadmap for the vehicle {vh.id}")
             offset = 780
             idx = 0
             for i, stop in enumerate(vh.full_itinerary):
@@ -76,8 +76,8 @@ class RoadMap:
                     if smt.id == vh.itinerary[idx] or smt.id == data.warehouse[vh.kind]:
                         c.drawString(100, offset, f"Stop n° {i} : {smt}")
                         idx += 1
-                    #else:
-                    #    c.drawString(100, offset, f"Stop n° {i} : {smt.str_as_stopover()}")
+                    else:
+                        c.drawString(100, offset, f"Stop n° {i} : {smt.str_as_stopover()}")
                 if offset - 20 < 20:
                     c.showPage()
                     offset = 800
