@@ -18,11 +18,11 @@ if __name__ == '__main__':
 
     while True:
 
-        print("What do you want to do?")
+        print("Main Menu")
         print('{:.<3s}{:<5}'.format("0", "Exit"))
-        print('{:.<3s}{:<5}'.format("1", "Random Graph to DB"))
-        print('{:.<3s}{:<5}'.format("2", "Get Graph from the DB"))
-        print('{:.<3s}{:<5}'.format("3", "Calculate Path + print RoadMap"))
+        print('{:.<3s}{:<5}'.format("1", "Generate a Random Graph to Database"))
+        print('{:.<3s}{:<5}'.format("2", "Get Graph from the Database"))
+        print('{:.<3s}{:<5}'.format("3", "Calculate Path and print the RoadMap"))
         print('{:.<3s}{:<5}'.format("4", "Generate stat data for studies"))
         print('{:.<3s}{:<5}'.format("5", f"Compute the {dbm.get_number_of_stored_stat()} stat data"))
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
         clearConsole()
 
         if inp == "0":  # quitter
-            print("It will close in 5 seconds...")
+            print("Program will close in 5 seconds...")
             sleep(5)
             quit(0)
 
@@ -63,13 +63,13 @@ if __name__ == '__main__':
 
         elif inp == "4":  # stat mode
             summ = int(input("Number of summit : "))
-            step = int(input("step :"))
-            for i in range(5):
+            step = int(input("Number of step :"))
+            for i in range(10):
                 summits = summ
                 vehicles = 10
-                for j in range(10):
+                for j in range(20):
                     neighbors = 3
-                    for k in range(5):
+                    for k in range(10):
 
                         bdd_entry = {"summits": summits, "vehicles": vehicles, "neighbors": neighbors}
                         #generation
@@ -92,6 +92,7 @@ if __name__ == '__main__':
                         end = time.time()
                         bdd_entry['pathfinding_astar'] = end - start
                         bdd_entry['average_weight_astar'] = average_weight(data)
+                        dbm.store_stat_to_mongo(json.loads(json.dumps(bdd_entry)))
                
                         del data.data_segment
                         del data.data_vehicles
@@ -100,18 +101,13 @@ if __name__ == '__main__':
                         #del roadmap_instance
                         del data
 
-                        dbm.store_stat_to_mongo(json.loads(json.dumps(bdd_entry)))
-                        print("Stored to MongoDB")
                         neighbors += 1
                     vehicles += 1
                 summits += step
-            print("Statistic Calculation is finished and put in the MongoDB")
+            print("Statistic Calculation is finished and in MongoDB")
             sleep(10)
         elif inp == "5":
             stat_map = StatMap('statstest')
-            # fig = plt.figure()
-            # ax = plt.axes(projection='3d')
-            # ax.scatter3D(x, y, z, c=z, cmap='BrBG_r')
             stats = dbm.get_stat_from_mongo()
             with_dj = {}
             with_astar = {'smt': [], 'pfas': [], 'pfdj': [], 'nei': []}
@@ -154,17 +150,17 @@ if __name__ == '__main__':
                 y[1].append(f[i])
                 line_names[1] = "Pathfinding with A*"
 
-            stat_map.add_txt("1. Execution time analysis")
-            r = Stats.classic_lines_graph(x, y, "Number of summits", "Pathfinding time (in s)", line_names,
-                                          "Graph representing number of summit over Pathfinding time.",
+            stat_map.add_txt("Statistics graphs")
+            r = Stats.classic_lines_graph(x, y, "Number of summits", "Processing time (in s)", line_names,
+                                          "Graph representing the number of summits over the time process.",
                                           True)
             stat_map.add_img(r)
-            stat_map.add_txt("With this graph we can compare the pathfinding algorithm by their respective")
-            stat_map.add_txt("mean execution time.")
+            stat_map.add_txt("This graph describes the time process of the pathfinding ")
+            stat_map.add_txt("by the number of summits.")
 
             # linear regression for number of summit over graph generation time
             b, r = Stats.linear_regression(sm, gn, "Number of summits", "Graph generation time (s)",
-                                           "Graph representing a linear regression of \nnumber of summit over graph "
+                                           "Graph representing a linear regression of \nthe number of summit over graph "
                                            "generation time.",
                                            True)
             stat_map.add_img(r)
@@ -172,7 +168,7 @@ if __name__ == '__main__':
             stat_map.add_txt(f"linear regression fx y ~ {round(b[0], 4)} + {round(b[1], 4)} * x")
 
             # linear regression for number of summit over Pathfinding time with Djikstra.
-            b, r = Stats.linear_regression(sm, ptg_dj, "Number of summits", "Pathfinding time with Djikstra (s)",
+            b, r = Stats.linear_regression(sm, ptg_dj, "Number of summits", "Pathfinding time with Djikstra (in s)",
                                            "Graph representing a linear regression of \nnumber of summit over Pathfinding time with Djikstra.",
                                            True)
             print(f"linear regression fx y ~ {round(b[0], 4)} + {round(b[1], 4)} * x")
@@ -196,25 +192,9 @@ if __name__ == '__main__':
 
             # plotting pathfinding A star
             r = Stats.stats_pathfinding(sm=with_astar['smt'], ng=with_astar['nei'], ptg=with_astar['pfas'],
-                                        title='Graph representing a progression of \nnumber of summit over A star pathfinding',
+                                        title='Graph representing a progression of \nnumber of summit over A* pathfinding',
                                         save=True)
             stat_map.add_img(r)
-            stat_map.next_page()
-            stat_map.add_txt("2. Influence of neighbors and summits")
-            # Plotting of the dj fix summits
-            r = Stats.stat_dj_fix_summits(True)
-            stat_map.add_img(r)
-            stat_map.add_txt("We had a graph with a defined number of summits (500) and we can see that")
-            stat_map.add_txt("when we add neighbors (even a small amount), the execution time grows instantly.")
-
-            # Plotting of the dj fix neighbors
-            r = Stats.stat_dj_fix_neighbors(True)
-            stat_map.add_img(r)
-            stat_map.add_txt("We had a graph with a defined number of neighbors (3) and we can see that when we ")
-            stat_map.add_txt("add summits the execution time grows but we need a large amount of summits to")
-            stat_map.add_txt("influence the execution time ")
-            stat_map.add_txt(" ")
-            stat_map.add_txt("The conclusion we can make is that the number of neighbors influences more the")
-            stat_map.add_txt("execution time of the algorithm than the number of summits")
+            
             # Save the PDF file
             stat_map.save()
