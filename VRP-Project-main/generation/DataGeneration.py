@@ -67,31 +67,6 @@ class DataGeneration:
             self.data_summit.append(Summit(i))
         # Convert graph to 2nd array adjacency matrix
 
-    def display(self, save=True) -> None:
-        # Convert the matrix array into an numpy matrix
-        M = np.array(self.data_matrix)
-        # Generate the figure
-        G2 = nx.DiGraph(M)
-        plt.figure()
-        # Set node size by type
-        node_sizes = [300 if x.kind == 1 else 160 for x in self.data_summit]
-        # Set color map
-        cmap = ['darkorange' if x.kind == 1 else 'dodgerblue' for x in self.data_summit]
-        # Draw the graph and specify our characteristics
-        lbl = [
-            f'Dépot \ntype: {self.warehouse.index(x.id)}' if x.kind == 1 else f'Adresse \n{self.data_summit.index(x)}'
-            for x in self.data_summit]
-        nx.draw(G2, with_labels=True, node_color=cmap,
-                node_size=node_sizes, font_size=8, font_weight="bold", width=0.75,
-                edgecolors='gray', labels={i: lbl[i] for i in range(len(lbl))})
-        if save:
-            # Save it
-            plt.savefig(f'graphs/MAP_{str(uuid.uuid4())[:4]}.png')
-        else:
-            # Show the figure
-            plt.show()
-        plt.close()
-
     def toJSON(self):
         """
         serialize the object in json

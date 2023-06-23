@@ -15,18 +15,17 @@ def remove_img(fn):
 
 
 def matrix_to_img(matrix, summit) -> str:
-    M = np.array(matrix)
     # Generate the figure
-    G2 = nx.DiGraph(M)
+    G2 = matrix.to_di_graph()
     plt.figure()
     options = {
         'node_color': 'yellow',
-        'node_size': 100,
+        'node_size': 120,
         'edge_color': 'tab:grey',
         'with_labels': False,
     }
     # Set node size by type
-    node_sizes = [300 if x.kind == 1 else 150 for x in summit]
+    node_sizes = [300 if x.kind == 1 else 120 for x in summit]
     # Set color map
     cmap = ['darkorange' if x.kind == 1 else 'dodgerblue' for x in summit]
     # Draw the graph and specify our characteristics
@@ -41,7 +40,7 @@ def matrix_to_img(matrix, summit) -> str:
 
 
 class RoadMap:
-    file_name = "default_name"
+    file_name = "random_name"
 
     def __init__(self, file_name):
         self.file_name = file_name
